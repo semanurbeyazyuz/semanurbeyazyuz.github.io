@@ -324,6 +324,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   renderAchievements();
   loadPuzzle('easy'); // default
+  // Added a debug log to confirm script execution
+  console.log('Script loaded successfully');
 });
 
 /* Gerçekçi sonbahar yaprakları SVG ile */

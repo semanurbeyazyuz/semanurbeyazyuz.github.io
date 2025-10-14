@@ -16,6 +16,7 @@ body{
   display:flex;
   flex-direction:column;
   outline: 1px solid red; /* Temporary border for debugging */
+  background-color: #f9f9f9; /* Light gray for debugging */
 }
 
 /* falling leaves container */
