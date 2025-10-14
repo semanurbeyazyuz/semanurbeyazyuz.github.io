@@ -15,6 +15,7 @@ body{
   min-height:100vh;
   display:flex;
   flex-direction:column;
+  outline: 1px solid red; /* Temporary border for debugging */
 }
 
 /* falling leaves container */
