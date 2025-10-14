@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sudoku Seasons</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Falling leaves container -->
+  <div id="leaves"></div>
+
+  <header class="topbar">
+    <div class="title">Sudoku Seasons 🍁</div>
+    <div class="controls">
+      <button class="diff-btn" data-diff="easy">Kolay</button>
+      <button class="diff-btn" data-diff="medium">Orta</button>
+      <button class="diff-btn" data-diff="hard">Zor</button>
+    </div>
+    <div class="status">
+      <div id="timer">00:00</div>
+      <div id="mistakes">Hatalar: 0/3</div>
+    </div>
+    <button id="menuBtn" class="menu-btn" aria-label="Menü"><span></span><span></span><span></span></button>
+  </header>
+
+  <main class="container">
+    <aside class="left-decor">
+      <!-- dekor, boş bırakılabilir -->
+    </aside>
+
+    <section class="main-area">
+      <div class="game-header">
+        <div id="currentDifficulty">Seviye: Kolay</div>
+        <div class="game-actions">
+          <button id="restartBtn">Yeniden Başla</button>
+          <button id="newGameBtn">Yeni Oyun</button>
+          <button id="showSolutionBtn">Çözümü Göster</button>
+        </div>
+      </div>
+
+      <div id="sudokuWrap">
+        <div id="sudokuGrid" class="sudoku-grid" aria-label="Sudoku grid"></div>
+
+        <div id="numPad" class="numpad" aria-label="Number pad">
+          <button class="num">1</button><button class="num">2</button><button class="num">3</button>
+          <button class="num">4</button><button class="num">5</button><button class="num">6</button>
+          <button class="num">7</button><button class="num">8</button><button class="num">9</button>
+          <button id="erase">Sil</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="sidebar" id="sidebarAchievements">
+      <h3><span class="icon-trophy">🏆</span> Başarılar</h3>
+      <table id="achievementsTable">
+        <thead>
+          <tr><th>Seviye</th><th>Süre</th><th>Tarih</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <small>Sudoku Seasons — Sonbahar Temalı Proje • Yapımcı: Sen</small>
+  </footer>
+
+
+  <!-- Modal for 3 mistakes -->
+  <div id="modalOverlay" class="modal-overlay hidden">
+    <div class="modal">
+      <h2>Üzgünüz — 3 hata yaptın!</h2>
+      <p>Tekrar denemek ister misin yoksa yeni bir oyun mu seçmek istersin?</p>
+      <div class="modal-actions">
+        <button id="modalRestart">Yeniden Başla</button>
+        <button id="modalNewGame">Yeni Oyun</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Çözüm Modalı -->
+  <div id="solutionModal" class="modal-overlay hidden">
+    <div class="modal">
+      <h2>Sudoku Çözümü</h2>
+      <div id="solutionGrid" class="sudoku-grid" style="pointer-events:none;"></div>
+      <div class="modal-actions">
+        <button id="closeSolutionBtn">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
