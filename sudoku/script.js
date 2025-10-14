@@ -1,7 +1,4 @@
-/* Sudoku Seasons - Basit çalışan başlangıç JS
-   - Tek bir puzzle seti kullanır (kolay/orta/zor)
-   - Timer, mistakes, modal, achievements (localStorage) içerir
-*/
+
 
 const puzzles = {
   easy: {
