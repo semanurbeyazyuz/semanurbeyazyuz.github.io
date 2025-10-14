@@ -264,25 +264,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
       loadPuzzle(btn.dataset.diff);
     });
   });
-  // numpad
-  document.getElementById('numPad').addEventListener('click', (e)=>{
-    const t = e.target;
-    if(t.classList.contains('num')){
-      const n = parseInt(t.textContent,10);
-      placeNumber(n);
-    } else if(t.id === 'erase'){
-      if(current.selectedCell !== null){
-        const idx = current.selectedCell;
-        current.puzzle[idx] = 0;
-        const cellEl = sudokuGrid.querySelector(`[data-index="${idx}"]`);
-        if(cellEl) {
-          cellEl.textContent = '';
-          cellEl.classList.remove('error');
-        }
-      }
-    }
-  });
-
   // Klavye ile giriş desteği
   document.addEventListener('keydown', (e) => {
     if(current.selectedCell === null) return;
