@@ -1,0 +1,272 @@
+:root{
+  --bg: #FFF8F2;
+  --accent: #EAB267;
+  --primary: #D46A2E;
+  --dark: #8B5E3C;
+  --grid-bg: #fff;
+  --muted: #666;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter, Poppins, system-ui, sans-serif;
+  background: linear-gradient(180deg, var(--bg), #FFF5E8);
+  color:var(--dark);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  outline: 1px solid red; /* Temporary border for debugging */
+  background-color: #f9f9f9; /* Light gray for debugging */
+}
+
+/* falling leaves container */
+#leaves{
+  pointer-events:none;
+  position:fixed;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+}
+.leaf {
+  position: absolute;
+  background: none;
+  width: 38px;
+  height: 38px;
+  pointer-events: none;
+  opacity: 0.85;
+  z-index: 0;
+}
+.leaf svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* topbar */
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:16px 24px;
+  z-index:2;
+}
+.title{
+  font-family:Poppins, Inter;
+  font-weight:700;
+  font-size:20px;
+  color:var(--primary);
+}
+.controls{display:flex;gap:8px}
+.diff-btn{
+  background:transparent;border:2px solid var(--primary);
+  padding:6px 12px;border-radius:8px;color:var(--primary);
+  cursor:pointer;font-weight:600;
+}
+.diff-btn.active{
+  background:linear-gradient(180deg,var(--accent),var(--primary));
+  color:white;border-color:transparent;
+}
+.status{display:flex;gap:12px;align-items:center;color:var(--muted);font-weight:600}
+#timer{background:#fff;padding:6px 10px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.06)}
+#mistakes{background:#fff;padding:6px 10px;border-radius:8px;}
+
+/* layout */
+.container{
+  display:grid;
+  grid-template-columns: 1fr minmax(320px,720px) 300px;
+  gap:20px;
+  padding:20px;
+  align-items:start;
+  position:relative;
+  z-index:2;
+}
+.left-decor{min-height:200px}
+.main-area{
+  background:transparent;
+}
+.sudoku-grid{
+  width:450px;
+  height:450px;
+  background:var(--grid-bg);
+  display:grid;
+  grid-template-columns:repeat(9,1fr);
+  grid-template-rows:repeat(9,1fr);
+  gap:0;
+  border-radius:12px;
+  box-shadow:0 6px 18px rgba(100,60,20,0.06);
+  margin:12px 0;
+  border:6px solid rgba(138,94,60,0.08); /* slightly thicker outer */
+}
+.cell{
+  border:1px solid #EAEAEA;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  font-size:20px;
+  cursor:pointer;
+  user-select:none;
+  position:relative;
+}
+.cell.fixed{color:var(--dark);background:transparent;cursor:default}
+.cell.selected{outline:3px solid rgba(212,106,46,0.12)}
+
+/* Hatalı sayı kalıcı kırmızı */
+.cell.error {
+  background: #ffeaea !important;
+  color: #d32f2f !important;
+  border-color: #d32f2f !important;
+}
+/* thicker borders for 3x3 */
+
+/* 3x3 blokları kalın kenarlarla ayır */
+.sudoku-grid > .cell {
+  border-right: 1px solid #EAEAEA;
+  border-bottom: 1px solid #EAEAEA;
+}
+.sudoku-grid > .cell:nth-child(9n) {
+  border-right: 3px solid rgba(138,94,60,0.25);
+}
+.sudoku-grid > .cell:nth-child(n+73) {
+  border-bottom: 3px solid rgba(138,94,60,0.25);
+}
+.sudoku-grid > .cell:nth-child(3n) {
+  border-right: 3px solid rgba(138,94,60,0.12);
+}
+.sudoku-grid > .cell:nth-child(n+19):nth-child(-n+27),
+.sudoku-grid > .cell:nth-child(n+46):nth-child(-n+54) {
+  border-bottom: 3px solid rgba(138,94,60,0.12);
+}
+
+/* number pad */
+.numpad{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  width:450px;
+}
+.numpad .num, #erase{
+  padding:12px;
+  border-radius:8px;
+  border:2px solid rgba(0,0,0,0.04);
+  background:white;
+  font-weight:700;
+  cursor:pointer;
+}
+
+/* sidebar achievements */
+.sidebar{
+  background:#fff;
+  padding:20px 18px 18px 18px;
+  border-radius:16px;
+  box-shadow:0 6px 24px rgba(0,0,0,0.07);
+  position:fixed;
+  top:20px;
+  right:20px;
+  min-width:260px;
+  max-width:90vw;
+  z-index:20;
+  transition:transform 0.3s cubic-bezier(.4,2,.6,1),opacity 0.2s;
+  transform:translateX(120%);
+  opacity:0;
+  pointer-events:none;
+}
+.sidebar.open {
+  transform:translateX(0);
+  opacity:1;
+  pointer-events:auto;
+}
+.sidebar h3{
+  margin-top:0;
+  font-family:Poppins,Inter,sans-serif;
+  font-size:1.3rem;
+  font-weight:700;
+  letter-spacing:0.5px;
+  color:var(--primary);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.icon-trophy{font-size:1.3em;vertical-align:middle;}
+#achievementsTable{
+  width:100%;
+  border-collapse:collapse;
+  font-size:1rem;
+  font-family:Inter,Poppins,sans-serif;
+  background:transparent;
+}
+#achievementsTable th, #achievementsTable td{
+  padding:8px 10px;
+  border-bottom:1px solid #F4F1EE;
+  text-align:left;
+  color:var(--dark);
+}
+#achievementsTable th{
+  font-weight:700;
+  background:rgba(234,178,103,0.08);
+  color:var(--primary);
+  letter-spacing:0.5px;
+}
+
+/* Hamburger Menü Butonu */
+.menu-btn {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+  margin-left: 12px;
+  z-index: 30;
+}
+.menu-btn span {
+  display: block;
+  width: 26px;
+  height: 3px;
+  margin: 3px 0;
+  background: var(--primary);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+/* modal */
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.35);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:100;
+}
+.modal{
+  background:white;
+  padding:28px 24px 20px 24px;
+  border-radius:18px;
+  max-width:95vw;
+  width:440px;
+  text-align:center;
+  box-shadow:0 8px 32px rgba(212,106,46,0.13);
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.modal-actions{display:flex;gap:16px;justify-content:center;margin-top:18px}
+.hidden{display:none}
+
+/* responsive */
+@media(max-width:1000px){
+  .container{grid-template-columns: 1fr; padding:12px;}
+  .sudoku-grid, .numpad{width:320px;height:320px;grid-template-columns:repeat(9,1fr)}
+  .numpad{width:320px}
+  .sidebar{order:2;margin-top:18px}
+}
+
+/* small visual tweaks */
+.game-header{display:flex;justify-content:space-between;align-items:center}
+.game-actions button{padding:8px 10px;border-radius:8px;border:1px solid rgba(0,0,0,0.05);background:white;cursor:pointer}
